@@ -1,0 +1,12 @@
+Sub ChangeCellFormat()
+
+    With Selection.Font
+        .Name = "Cambria"
+        .Bold = True
+        .Italic = True
+        .Size = 12
+        .Underline = xlUnderlineStyleSingle
+        .ThemeColor = xlThemeColorAccent1
+    End With
+    
+End Sub

@@ -1,0 +1,51 @@
+Sub SendWorkbookToPowerpoint()
+
+    Dim pp As PowerPoint.Application
+    Dim PPPres As PowerPoint.Presentation
+    Dim PPSlide As PowerPoint.Slide
+    Dim xlwksht As Excel.Worksheet
+    Dim MyRange As String
+    Dim MyTitle As String
+    Dim SlideCount As Long
+    
+    'Open PowerPoint, add a new presentation and make visible
+    Set pp = New PowerPoint.Application
+    Set PPPres = pp.Presentations.Add
+    pp.Visible = True
+    
+    ' Set the range for you data and title
+    MyRange = "A1:I27"
+    
+    ' Start the loop through each worksheet
+    For Each xlwksht In ActiveWorkbook.Worksheets
+    
+        xlwksht.Select
+        Application.Wait (Now + TimeValue("0:00:1"))
+        MyTitle = xlwksht.Range("C19").Value
+        
+        'Copy the range as picture
+        xlwksht.Range(MyRange).CopyPicture _
+        Appearance:=xlScreen, Format:=xlPicture
+        
+        'Count slides and add new slide as next available slide number
+        SlideCount = PPPres.Slides.Count
+        Set PPSlide = PPPres.Slides.Add(SlideCount + 1, ppLayoutTitleOnly)
+        PPSlide.Select
+        
+        'Paste the picture and adjust its position
+        PPSlide.Shapes.Paste.Select
+        pp.ActiveWindow.Selection.ShapeRange.Align msoAlignCenters, True
+        pp.ActiveWindow.Selection.ShapeRange.Top = 100
+        
+        'Add the title to the slide then move to next worksheet
+        PPSlide.Shapes.Title.TextFrame.TextRange.Text = MyTitle
+        
+    Next xlwksht
+    
+    'Memory Cleanup
+    pp.Activate
+    Set PPSlide = Nothing
+    Set PPPres = Nothing
+    Set pp = Nothing
+
+End Sub

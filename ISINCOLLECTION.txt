@@ -1,0 +1,16 @@
+Private Function IsInCollection(Coln As Object, Item As String) As Boolean
+
+' Determin whether an object is a member of a collection
+' Return True if the object is in the collection
+' IsInCollection(ActiveWorkbook.Names, "Data") => Is Data active Workbook
+' IsInCollection(Workbooks, "budget.xlsx") => Is the Budget Workbook open
+' IsInCollection(ActiveWorkbook.Worksheets, "Sheet1") => Does the active Workbook contain a sheet named Sheet1
+
+Dim Obj As Object
+
+On Error Resume Next
+
+    Set Obj = Coln(Item)
+    IsInCollection = Not Obj Is Nothing
+    
+End Function

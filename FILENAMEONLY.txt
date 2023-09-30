@@ -1,0 +1,13 @@
+Private Function FileNameOnly(pname) As String
+
+' Accepts a path with a filename
+' Returns the filename from a path/filename string
+    
+Dim temp As Variant
+Dim Length As Long
+
+    Length = Len(pname)
+    temp = Split(pname, Application.PathSeparator)
+    FileNameOnly = temp(UBound(temp))
+    
+End Function

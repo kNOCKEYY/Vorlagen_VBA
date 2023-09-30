@@ -1,0 +1,8 @@
+Function STATICRAND()
+
+' Returns a random number that doesn't Change when recalculated
+' =INT(STATICRAND()*1000)
+
+    STATICRAND = Rnd()
+    
+End Function

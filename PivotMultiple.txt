@@ -1,0 +1,96 @@
+Sub MakeMultiplePivots()
+
+' This procedure creates 28 pivot tables
+' Just works the first time after startup for some reason
+
+Dim PTCache As PivotCache
+Dim PT As PivotTable
+Dim SummarySheet As Worksheet
+Dim Itemname As String
+Dim Row As Long
+Dim Col As Long
+Dim i As Long
+
+    Application.ScreenUpdating = False
+    
+    ' Delete Summary sheet if it exists
+    On Error Resume Next
+    Application.DisplayAlerts = False
+    Sheets("Summary").Delete
+    On Error GoTo 0
+    
+    ' Add Summary sheet
+    Set SummarySheet = Worksheets.Add
+    ActiveSheet.Name = "Summary"
+    
+    ' Delete PivotCache if it exists
+    On Error Resume Next
+    ActiveWorkbook.PivotCaches("BudgetPivotCache").Delete
+    On Error GoTo 0
+    
+    ' Create Pivot Cache
+    Set PTCache = ActiveWorkbook.PivotCaches.Create( _
+        SourceType:=xlDatabase, _
+        SourceData:=Sheets("SurveyData").Range("A1").CurrentRegion)
+        
+    Row = 1
+    For i = 1 To 14
+        For Col = 1 To 6 Step 5 ' 2 columns
+            Itemname = Sheets("SurveyData").Cells(1, i + 2)
+            With Cells(Row, Col)
+                .Value = Itemname
+                .Font.Size = 16
+            End With
+            
+    ' Create pivot table
+    Set PT = ActiveSheet.PivotTables.Add( _
+        PivotCache:=PTCache, _
+        TableDestination:=SummarySheet.Cells(Row + 1, Col))
+
+    ' Add the fields
+    If Col = 1 Then ' Frequency tables
+        With PT.PivotFields(Itemname)
+            .Orientation = xlDataField
+            .Name = "Frequency"
+            .Function = xlCount
+        End With
+    Else ' Percent tables
+        With PT.PivotFields(Itemname)
+            .Orientation = xlDataField
+            .Name = "Percent"
+            .Function = xlCount
+            .Calculation = xlPercentOfColumn
+            .NumberFormat = "0.0%"
+        End With
+    End If
+    
+    PT.PivotFields(Itemname).Orientation = xlRowField
+    PT.PivotFields("Sex").Orientation = xlColumnField
+    PT.TableStyle2 = "PivotStyleMedium2"
+    PT.DisplayFieldCaptions = False
+    
+    If Col = 6 Then
+        ' add data bars to the last column
+        PT.ColumnGrand = False
+        PT.DataBodyRange.Columns(3).FormatConditions. _
+        AddDatabar
+        With PT.DataBodyRange.Columns(3).FormatConditions(1)
+            .BarFillType = xlDataBarFillSolid
+            .MinPoint.Modify newtype:=xlConditionValueNumber, newvalue:=0
+            .MaxPoint.Modify newtype:=xlConditionValueNumber, newvalue:=1
+        End With
+        End If
+    Next Col
+        Row = Row + 10
+    Next i
+    
+    ' Replace numbers with descriptive text
+    With Range("A:A,F:F")
+        .Replace "1", "Strongly Disagree"
+        .Replace "2", "Disagree"
+        .Replace "3", "Undecided"
+        .Replace "4", "Agree"
+        .Replace "5", "Strongly Agree"
+    End With
+    
+End Sub

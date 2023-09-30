@@ -1,0 +1,18 @@
+Sub ImportDataFromTxt()
+
+' Imports data from a textfile
+' Whole line will be cell.Value
+
+Dim r As Long
+Dim data As Variant
+
+    Open "D:\Excel\Excel 2019 Power Programming\textfile.txt" For Input As #1
+    r = 0
+    Do Until EOF(1)
+        Line Input #1, data
+        ActiveCell.Offset(r, 0) = data
+        r = r + 1
+    Loop
+    Close #1
+
+End Sub

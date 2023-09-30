@@ -1,0 +1,31 @@
+Sub ListAllAddins()
+
+    Dim ai As AddIn
+    Dim Row As Long
+    Dim Table1 As ListObject
+    Dim sh As Worksheet
+    
+    Set sh = ActiveSheet
+    sh.Cells.Clear
+    sh.Range("A1:E1") = Array("Name", "Title", "Installed", _
+        "Comments", "Path")
+    Row = 2
+    
+    On Error Resume Next
+        For Each ai In Application.AddIns
+            sh.Cells(Row, 1) = ai.Name
+            sh.Cells(Row, 2) = ai.Title
+            sh.Cells(Row, 3) = ai.Installed
+            sh.Cells(Row, 4) = ai.Comments
+            sh.Cells(Row, 5) = ai.Path
+            Row = Row + 1
+        Next ai
+    On Error GoTo 0
+    
+    sh.Range("A1").Select
+    sh.ListObjects.Add
+    sh.ListObjects(1).TableStyle = _
+        "TableStyleMedium2"
+    sh.ListObjects(1).Range.EntireColumn.AutoFit
+
+End Sub

@@ -1,0 +1,35 @@
+Sub TestSort()
+
+Dim avTesting() As Variant
+' Works with all values, but is slow
+
+Dim i As Long
+
+    ' avTesting = Application.Transpose(Range("D3:D11"))
+    avTesting = Array(45, 30, 25, 15, 10, 5, 40, 20, 35, 50)
+    
+    Call BubbleSort(avTesting)
+   
+    Range(Cells(2, 3), Cells(UBound(avTesting) + 1, 3)) = Application.Transpose(avTesting)
+    
+End Sub
+
+Sub BubbleSort(list() As Variant)
+'   Sorts an array using bubble sort algorithm
+'   Works with any data type
+    Dim First As Integer, Last As Long
+    Dim i As Long, j As Long
+    Dim Temp
+    
+    First = LBound(list)
+    Last = UBound(list)
+    For i = First To Last - 1
+        For j = i + 1 To Last
+            If list(i) > list(j) Then
+                Temp = list(j)
+                list(j) = list(i)
+                list(i) = Temp
+            End If
+        Next j
+    Next i
+End Sub

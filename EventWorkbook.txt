@@ -1,0 +1,100 @@
+Option Explicit
+' Must be located in ThisWorkbook
+
+Private Sub Workbook_Activate()
+
+' Maximizes Workboock on Activation
+
+    ActiveWindow.WindowState = xlMaximized
+
+End Sub
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+
+' Performs an Action before closing the workbook and bypasses the BeforeClose save problem
+
+Dim Msg As String
+Dim Ans As String
+
+    If Me.Saved = False Then
+        Msg = "DO you want to save the changes you made to "
+        Msg = Msg & Me.Name & "?"
+        Ans = MsgBox(Msg, vbQuestion + vbYesNoCancel, "Save?")
+        Select Case Ans
+            Case vbYes
+                Me.Save
+            Case vbCancel
+                Cancel = True
+                Exit Sub
+        End Select
+    End If
+    
+    ' Now you can call sth
+    ' Call Delete ShortcutMenuItems
+    
+    Me.Saved = True
+
+End Sub
+
+Private Sub Workbook_BeforePrint(Cancel As Boolean)
+
+' Adds a footnote on each Worksheet when printed
+
+Dim Sh As Object
+
+    For Each Sh In ThisWorkbook.Sheets
+        ' Worksheets(2).Range("A1") declared as footnote
+        Sh.PageSetup.LeftFooter = Worksheets(2).Range("A1")
+    Next Sh
+    
+    ' Other method
+    ' Worksheets("Tabelle1").Range("B:D").EntireColumn.Hidden = True
+    ' Application.OnTime Now()+ TimeValue("0:00:05"), _
+    '   Worksheets("Sheet1").Range("B:D").EntireColumn.Hidden = False
+
+End Sub
+
+Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
+
+' Shows a Message when File is saved and an InfoMsgBox pops
+
+    If SaveAsUI Then
+        MsgBox "Makesure you safe this file on drive J."
+    End If
+
+End Sub
+
+
+Private Sub Workbook_NewSheet(ByVal Sh As Object)
+
+' Adjusts Column Width and adds Timestamp when a new Worksheet is created
+
+    If TypeName(Sh) = "Worksheet" Then
+        Sh.Cells.ColumnWidth = 35
+        Sh.Range("A1") = "Sheet added " & Now()
+    End If
+
+End Sub
+
+Private Sub Workbook_Open()
+
+' Sings a funny song when Workbook is opened
+
+Dim Msg As String
+
+    If Weekday(Now) = vbThursday Then
+        Msg = "It's Friday and theeeen "
+        Msg = Msg & " It's Saturday, Sunday, what?"
+        MsgBox Msg, vbInformation
+    End If
+
+End Sub
+
+
+Private Sub Workbook_SheetActivate(ByVal Sh As Object)
+
+' Selects A1 when a Worksheet is Activated
+
+    If TypeName(Sh) = "Worksheet" Then Range("A1").Select
+
+End Sub

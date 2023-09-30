@@ -1,0 +1,9 @@
+Sub CountSelectedCells()
+
+Dim Data As Range
+
+    Set Data = Range("A1:A9")
+    Range("A1:A8").Select
+   
+    
+End Sub

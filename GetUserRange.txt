@@ -1,0 +1,28 @@
+Sub GetUserRange()
+
+' Asks User for A Range and fills the range with randints
+
+Dim UserRange As Range
+Dim Prompt As String
+Dim Title As String
+
+    Prompt = "Select a range for the random numbers."
+    Title = "Select a Range"
+    
+    ' Display Input Box
+    On Error Resume Next
+    Set UserRange = Application.InputBox( _
+        Prompt:=Prompt, _
+        Title:=Title, _
+        Default:=ActiveCell.Address, _
+        Type:=8)
+    On Error GoTo 0
+    
+    ' Was the Input Box Canceled
+    If UserRange Is Nothing Then
+        MsgBox "Canceled."
+    Else
+        UserRange.Formula = "=RAND()"
+    End If
+
+End Sub

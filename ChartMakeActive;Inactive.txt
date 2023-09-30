@@ -1,0 +1,17 @@
+Private Function ChartIsActivated() As Boolean
+
+	ChartIsActivated = Not ActiveChart Is Nothing
+
+End Function
+
+Sub MakeChartActive()
+
+    ActiveSheet.ChartObjects("Name").Activate
+
+End Sub
+
+Sub MakeChartInactiveEmbedded()
+
+    ActiveWindow.RangeSelection.Select
+
+End Sub

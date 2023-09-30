@@ -1,0 +1,14 @@
+Private Function WorkbookIsOpen(wbname) As Boolean
+
+' Accepts a Name of a Workbook
+' Returns True if the workbook is open
+
+Dim x As Workbook
+
+On Error Resume Next
+
+    Set x = Workbooks(wbname)
+    If Err.Number = 0 Then WorkbookIsOpen = True _
+        Else WorkbookIsOpen = False
+    
+End Function

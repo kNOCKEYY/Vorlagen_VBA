@@ -1,0 +1,55 @@
+Sub AddToShortCut()
+
+' Adds a menu item to the Cell shortcut menu in the active workbook
+
+    Dim Bar As CommandBar
+    Dim NewControl As CommandBarButton
+    
+    DeleteFromShortcut
+    Set Bar = CommandBars("Cell")
+    Set NewControl = Bar.Controls.Add _
+        (Type:=msoControlButton)
+    
+    With NewControl
+        .Caption = "Toggle &Wrap Text"
+        .OnAction = "ToggleWrapText"
+        .Picture = Application.CommandBars.GetImageMso _
+            ("WrapText", 16, 16)
+        .Style = msoButtonIconAndCaption
+    End With
+    
+End Sub
+
+Sub ToggleWrapText()
+
+    On Error Resume Next
+    CommandBars.ExecuteMso "WrapText"
+    If Err.Number <> 0 Then MsgBox "Could not toggle Wrap Text"
+
+End Sub
+
+Sub DeleteFromShortcut()
+
+    On Error Resume Next
+    CommandBars("Cell").Controls("Toggle &Wrap Text").Delete
+    
+End Sub
+
+
+_______________________________________
+
+' In ThisWorkbook
+
+Private Sub Workbook_Open()
+
+	AddToShortCut
+
+End Sub
+
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+
+
+	DeleteFromShortcut
+
+End Sub

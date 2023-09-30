@@ -1,0 +1,35 @@
+SHEET1
+
+Private Sub Worksheet_BeforeRightClick _
+  (ByVal Target As Excel.Range, Cancel As Boolean)
+    Cancel = True
+    MsgBox "The shortcut menu is not available."
+End Sub
+
+_________________________________________________________
+
+This Workbook
+
+Private Sub Workbook_Open()
+    Call SetupNoShiftF10
+End Sub
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+    Call TurnOffNoShiftF10
+End Sub
+
+_________________________________________________________
+
+MODULE
+
+Sub SetupNoShiftF10()
+    Application.OnKey "+{F10}", "NoShiftF10"
+End Sub
+
+Sub TurnOffNoShiftF10()
+    Application.OnKey "+{F10}"
+End Sub
+
+Sub NoShiftF10()
+    MsgBox "Nice try, but that doesn't work either."
+End Sub

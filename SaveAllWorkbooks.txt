@@ -1,0 +1,15 @@
+Public Sub SaveAllWorkbooks()
+
+' Saves all open Workbooks
+
+Dim Book As Workbook
+
+    For Each Book In Workbooks
+        If Book.Path <> "" Then
+            If Book.Saved <> True Then
+                Book.Save
+            End If
+        End If
+    Next Book
+    
+End Sub

@@ -1,0 +1,77 @@
+Option Explicit
+
+Private Sub Worksheet_BeforeDoubleClick(ByVal Target As Range, Cancel As Boolean)
+
+' Makes the ActiveCell Bold when DoubleClicked
+
+    If ActiveCell.Font.Bold = True Then
+        ActiveCell.Font.Bold = False
+    Else
+        ActiveCell.Font.Bold = True
+    End If
+    Cancel = True
+
+End Sub
+
+Private Sub Worksheet_BeforeRightClick(ByVal Target As Range, Cancel As Boolean)
+
+'' Makes the Shortcut Menu unavailble
+'' User still can Shift+F10
+'
+'    Cancel = True
+'    MsgBox "The shortcut menu is not available."
+
+
+'' Opens Format Cells Dialog Box instead of Shortcut Menu if Target is Numeric
+'
+'    If IsNumeric(Target) And Not IsEmpty(Target) Then
+'        Application.CommandBars.ExecuteMso ("NumberFormatsDialog")
+'        Cancel = True
+'    End If
+
+End Sub
+
+Private Sub Worksheet_Change(ByVal Target As Range)
+
+'' Pops a window if Range is Changed
+'
+'Dim MRange As Range
+'
+'    Set MRange = Range("F:F")
+'    If Not Intersect(Target, MRange) Is Nothing Then _
+'    MsgBox "A cell in the input range has been changed."
+
+
+'' Makes all Formulas in Worksheet bold
+'
+'Dim cell As Range
+'
+'    Set Target = Intersect(Target, Target.Parent.UsedRange)
+'
+'    If Not Target Is Nothing Then
+'        For Each cell In Target
+'            If cell.HasFormula Then
+'                cell.Font.Bold = True
+'            Else
+'                cell.Font.Bold = False
+'            End If
+'        Next cell
+'    End If
+
+End Sub
+
+Private Sub Worksheet_SelectionChange(ByVal Target As Range)
+
+' Active Row an Cell will be filled in almost white
+' Macro destroys the Undo stack
+
+    Cells.Interior.ColorIndex = xlNone
+    
+    With ActiveCell
+        .EntireRow.Interior.Color = RGB(239, 239, 239)
+        .EntireColumn.Interior.Color = RGB(239, 239, 239)
+    End With
+
+End Sub
+
+

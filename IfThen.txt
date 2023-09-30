@@ -1,0 +1,20 @@
+Sub CalcDiscountIf()
+
+Dim Quantity As Variant
+Dim Discount As Double
+
+    Quantity = InputBox("Enter Quantity: ")
+    If Quantity = "" Then
+        Exit Sub
+    ElseIf Quantity >= 0 And Quantity < 25 Then
+        Discount = 0.1
+    ElseIf Quantity >= 25 And Quantity < 50 Then
+        Discount = 0.15
+    ElseIf Quantity >= 50 And Quantity < 75 Then
+        Discount = 0.2
+    Else
+        Discount = 0.25
+    End If
+    
+    MsgBox "Discount: " & Discount
+End Sub

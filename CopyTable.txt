@@ -1,0 +1,6 @@
+Sub CopyTable()
+
+    ' Copy the whole table
+    Range("Table1[#All]").Copy Sheets("Sheet2").Range("A1")
+
+End Sub

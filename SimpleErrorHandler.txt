@@ -1,0 +1,39 @@
+Sub SelectFormulas()
+
+    On Error Resume Next
+    Selection.SpecialCells(xlFormulas).Select
+    If Err.Number <> 0 Then MsgBox "An error occurred."
+    If Err.Number = 1004 Then MsgBox "No formula cells were found."
+    On Error GoTo 0
+      
+End Sub
+
+
+Sub ErrorDemo()
+    On Error GoTo Handler
+    Selection.Value = 123
+    Exit Sub
+Handler:
+    MsgBox "Cannot assign a value to the selection."
+    
+End Sub
+
+
+Sub CheckForFile1()
+
+Dim FileName As String
+Dim Book As Workbook
+
+    FileName = "BUDGET.XLSX"
+    On Error Resume Next
+    Set Book = Workbooks(FileName)
+    
+    If Err = 0 Then
+        MsgBox FileName & " is open"
+    Else
+        MsgBox FileName & " is not open"
+    End If
+    
+    On Error GoTo 0
+    
+End Sub

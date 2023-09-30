@@ -1,0 +1,11 @@
+Sub PrintEmbeddedCharts()
+
+' Prints all Charts in ActiveSheet with default printer
+
+    Dim ChtObj As ChartObject
+    
+    For Each ChtObj In ActiveSheet.ChartObjects
+        ChtObj.Chart.PrintOut
+    Next ChtObj
+
+End Sub

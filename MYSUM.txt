@@ -1,0 +1,283 @@
+Option Explicit
+
+Sub ZapTheVowels()
+
+Dim UserInput As String
+
+    UserInput = InputBox("Enter some Text:")
+    MsgBox REMOVEVOWELS(UserInput), vbInformation, UserInput
+    
+
+End Sub
+
+Function REMOVEVOWELS(Txt) As String
+
+' Removes all vowels from the Txt Arg
+' Returns #VALUE if Txt is not a string
+
+Dim i As Long
+
+    REMOVEVOWELS = ""
+    
+    If Application.WorksheetFunction.IsText(Txt) Then
+        For i = 1 To Len(Txt)
+            If Not UCase(Mid(Txt, i, 1)) Like "[AEIOU]" Then
+                REMOVEVOWELS = REMOVEVOWELS & Mid(Txt, i, 1)
+            End If
+        Next i
+    Else
+        REMOVEVOWELS = CVErr(xlErrNA)
+'        ¡¡ xlErrDiv0 (for #DIV/0!)
+'        ¡¡ xlErrNA (for #N/A)
+'        ¡¡ xlErrName (for #NAME?)
+'        ¡¡ xlErrNull (for #NULL!)
+'        ¡¡ xlErrNum (for #NUM!)
+'        ¡¡ xlErrRef (for #REF!)
+'        ¡¡ xlErrValue (for #VALUE!)
+    End If
+    
+End Function
+
+Function USER(Optional UpperCase As Variant)
+
+' Returns the name of the current user
+    If IsMissing(UpperCase) Then UpperCase = False
+    USER = Application.UserName
+    If UpperCase Then USER = UCase(USER)
+
+End Function
+
+Function EXCELDIR() As String
+
+' Returns the directiory in which Excel is installed
+
+    EXCELDIR = Application.Path
+
+End Function
+
+Function SHEETCOUNT() As String
+
+' Returns the number of sheets in the workbook
+
+    SHEETCOUNT = Application.Caller.Parent.Parent.Sheets.Count
+    
+End Function
+
+
+Function SHEETNAME()
+
+' Returns the name of the worksheet
+
+    SHEETNAME = Application.Caller.Parent.Name
+    
+End Function
+
+Function STATICRAND()
+
+' Returns a random number that doesn't Change when recalculated
+' =INT(STATICRAND()*1000)
+
+    STATICRAND = Rnd()
+    
+End Function
+
+Sub CalcCommission()
+
+Dim Sales As Long
+Dim Msg As String, Ans As String
+
+    Sales = Val(InputBox("Enter Sales:", "Sales Comission Calculator"))
+    
+    ' Exit if canceled
+    If Sales = 0 Then Exit Sub
+    
+    ' Build the Message
+    Msg = "Sales Amount:" & vbTab & Format(Sales, "$#,##0.00")
+    Msg = Msg & vbCrLf & "Commission:" & vbTab
+    Msg = Msg & Format(COMMISSION(Sales), "$#,##0.00")
+    Msg = Msg & vbCrLf & vbCrLf & "Another?"
+    
+    ' Display the result and prompt for another
+    
+    Ans = MsgBox(Msg, vbYesNo, "Sales Commission Calculator")
+    If Ans = vbYes Then CalcCommission
+
+End Sub
+
+
+Function COMMISSION(Sales)
+
+    Const Tier1 = 0.08
+    Const Tier2 = 0.105
+    Const Tier3 = 0.12
+    Const Tier4 = 0.14
+    
+    Select Case Sales
+        Case 0 To 9999
+            COMMISSION = Sales * Tier1
+        Case 10000 To 19999
+            COMMISSION = Sales * Tier2
+        Case 20000 To 39999
+            COMMISSION = Sales * Tier3
+        Case Else
+            COMMISSION = Sales * Tier4
+    End Select
+              
+End Function
+
+
+Function COMMISSION2(Sales, Years)
+
+    Const Tier1 = 0.08
+    Const Tier2 = 0.105
+    Const Tier3 = 0.12
+    Const Tier4 = 0.14
+    
+    Select Case Sales
+        Case 0 To 9999
+            COMMISSION2 = Sales * Tier1
+        Case 10000 To 19999
+            COMMISSION2 = Sales * Tier2
+        Case 20000 To 39999
+            COMMISSION2 = Sales * Tier3
+        Case Else
+            COMMISSION2 = Sales * Tier4
+    End Select
+    
+    COMMISSION2 = COMMISSION2 + (COMMISSION2 * Years / 100)
+              
+End Function
+
+Sub MakeList()
+
+Dim Nums(1 To 100) As Double
+Dim i As Integer
+
+    For i = 1 To 100
+        Nums(i) = Rnd * 1000
+    Next i
+    
+    MsgBox SUMARRAY(Nums)
+
+End Sub
+
+
+
+Function SUMARRAY(List) As Double
+
+Dim Item As Variant
+
+    SUMARRAY = 0
+    
+    For Each Item In List
+        If WorksheetFunction.IsNumber(Item) Then _
+            SUMARRAY = SUMARRAY + Item
+    Next Item
+
+End Function
+
+
+Function DRAWONE(Rng As Variant, Optional Recalc As Variant = False)
+
+' Chooses one cell at random from range
+
+' Make function volatile if Recalc is True
+Application.Volatile Recalc
+
+' Determine a random cell
+    DRAWONE = Rng(Int((Rng.Count) * Rnd + 1))
+
+End Function
+
+
+Function MONTHNAMES(Optional MIndex)
+
+Dim AllNames As Variant
+Dim MonthVal As Long
+
+    AllNames = Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", _
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+                    
+    If IsMissing(MIndex) Then
+        MONTHNAMES = AllNames
+    Else
+        Select Case MIndex
+            Case Is >= 1
+                ' Determine month value for example, 13=1)
+                MonthVal = ((MIndex - 1) Mod 12)
+                MONTHNAMES = AllNames(MonthVal)
+            Case Is <= 0
+                MONTHNAMES = Application.Transpose(AllNames)
+        End Select
+    End If
+
+End Function
+
+
+Function SIMPLESUM(ParamArray arglist() As Variant) As Double
+
+Dim cell As Range
+
+    For Each arg In arglist
+        For Each cell In arg
+            SIMPLESUM = SIMPLESUM + cell
+        Next cell
+    Next arg
+    
+End Function
+
+
+Function MYSUM(ParamArray args() As Variant) As Variant
+
+' Emulates Excels SUM Func
+
+Dim i As Variant
+Dim TempRange As Range, cell As Range
+Dim ECode As String
+Dim m, n
+
+    MYSUM = 0
+    
+'   Process each Arg
+    For i = 0 To UBound(args)
+'       Skip missing arguments
+        If Not IsMissing(args(i)) Then
+'           What type of argument is it?
+            Select Case TypeName(args(i))
+                Case "Range"
+'                   Create temp range to handle full row or column ranges
+                    Set TempRange = Intersect(args(i).Parent.UsedRange, args(i))
+                    For Each cell In TempRange
+                        If IsError(cell) Then
+                            MYSUM = cell ' return the error
+                            Exit Function
+                        End If
+                        If cell = True Or cell = False Then
+                            MYSUM = MYSUM + 0
+                        Else
+                            If IsNumeric(cell) Or IsDate(cell) Then _
+                                MYSUM = MYSUM + cell
+                            End If
+                    Next cell
+                Case "Variant()"
+                    n = args(i)
+                    For m = LBound(n) To UBound(n)
+                        MYSUM = MYSUM(MYSUM, n(m)) ' recursive call
+                    Next m
+                Case "Null" ' ignore it
+                Case "Error" ' return the Error
+                    MYSUM = args(i)
+                    Exit Function
+                Case "Boolean"
+                    ' Check for literal True and compensate
+                    If args(i) = "True" Then MYSUM = MYSUM + 1
+                Case "Date"
+                    MYSUM = MYSUM + args(i)
+                Case Else
+                    MYSUM = MYSUM + args(i)
+            End Select
+        End If
+    Next i
+    
+End Function
+

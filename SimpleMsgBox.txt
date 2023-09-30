@@ -1,0 +1,9 @@
+Sub ShowSimpleMsgBox()
+
+Dim Ans As Long
+
+    Ans = MsgBox("Continue", vbYesNo + vbQuestion, "Tell me")
+    If Ans = vbNo Then Exit Sub
+    MsgBox ("Nice it works")
+    
+End Sub

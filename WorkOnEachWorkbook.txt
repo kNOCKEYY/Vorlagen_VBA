@@ -1,0 +1,9 @@
+Sub WorkOnEachWorkbook()
+
+Dim Item As Worksheet
+
+    For Each Item In ActiveWorkbook.Worksheets
+        MsgBox Item.Name
+    Next Item
+
+End Sub

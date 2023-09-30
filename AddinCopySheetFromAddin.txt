@@ -1,0 +1,18 @@
+Sub CopySheetFromAddin()
+
+    Dim AddinSheet As Worksheet
+    Dim NumSheets As Long
+    
+    Set AddinSheet = Workbooks("Export Charts.xlam").Worksheets(1)
+    
+    NumSheets = ActiveWorkbook.Sheets.Count
+    AddinSheet.Copy After:=ActiveWorkbook.Sheets(NumSheets)
+
+End Sub
+
+
+Sub CreateNewWorkbook()
+
+    Workbooks("Export Charts.xlam").Worksheets(1).Copy
+    
+End Sub

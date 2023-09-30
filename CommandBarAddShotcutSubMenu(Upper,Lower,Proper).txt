@@ -1,0 +1,109 @@
+Sub AddSubmenu()
+
+    Dim Bar As CommandBar
+    Dim NewMenu As CommandBarControl
+    Dim NewSubmenu As CommandBarButton
+    
+    DeleteSubmenu
+    Set Bar = CommandBars("Cell")
+    
+    ' Add submenu
+    Set NewMenu = Bar.Controls.Add _
+        (Type:=msoControlPopup, _
+        temporary:=True)
+    NewMenu.Caption = "Ch&ange Case"
+    NewMenu.BeginGroup = True
+    
+    ' Add first submenu Item
+    Set NewSubmenu = NewMenu.Controls.Add _
+        (Type:=msoControlButton)
+    With NewSubmenu
+        .FaceId = 38
+        .Caption = "&Upper Case"
+        .OnAction = "MakeUpperCase"
+    End With
+    
+    ' Add second submenu Item
+    Set NewSubmenu = NewMenu.Controls.Add _
+        (Type:=msoControlButton)
+    With NewSubmenu
+        .FaceId = 40
+        .Caption = "&Lower Case"
+        .OnAction = "MakeLowerCase"
+    End With
+    
+    ' Add second third Item
+    Set NewSubmenu = NewMenu.Controls.Add _
+        (Type:=msoControlButton)
+    With NewSubmenu
+        .FaceId = 476
+        .Caption = "&Proper Case"
+        .OnAction = "MakeProperCase"
+    End With
+    
+End Sub
+
+Sub DeleteSubmenu()
+
+    On Error Resume Next
+    CommandBars("Cell").Controls("Cha&nge Case").Delete
+
+End Sub
+
+Sub MakeUpperCase()
+
+    Dim rng As Range
+    Dim cell As Range
+    
+    Set rng = Selection
+    
+    For Each cell In rng
+        cell.Value = UCase(cell)
+    Next cell
+
+End Sub
+
+Sub MakeLowerCase()
+
+    Dim rng As Range
+    Dim cell As Range
+    
+    Set rng = Selection
+    
+    For Each cell In rng
+        cell.Value = LCase(cell)
+    Next cell
+
+End Sub
+
+Sub MakeProperCase()
+
+    Dim rng As Range
+    Dim cell As Range
+    
+    Set rng = Selection
+    
+    For Each cell In rng
+        cell.Value = StrConv(cell, vbProperCase)
+    Next cell
+
+End Sub
+
+________________
+
+In ThisWorkbook
+
+
+Private Sub Workbook_Open()
+
+	AddSubmenu
+
+End Sub
+
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+
+
+	DeleteSubmenu
+
+End Sub

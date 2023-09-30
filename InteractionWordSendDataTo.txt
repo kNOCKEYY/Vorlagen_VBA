@@ -1,0 +1,41 @@
+Sub SendDAtaToWord()
+
+' Sends Range to a Word Document
+' The Word Document MUST be bookmarked at a specific place
+
+    Dim MyRange As Excel.Range
+    Dim wd As Word.Application
+    Dim wdDoc As Word.Document
+    Dim wdRange As Word.Range
+    
+    ' Define and copy the Range
+    Set MyRange = Sheets("Tabelle1").Range("A1:E7")
+    MyRange.Copy
+    
+    ' Open the target Word document
+    Set wd = New Word.Application
+    Set wdDoc = wd.Documents.Open _
+        (ThisWorkbook.Path & "\" & "PasteTable1.docx") ' Path + docname here
+    wd.Visible = True
+    
+    ' Set focus on the target bookmark
+    Set wdRange = wdDoc.Bookmarks("DataTableHere").Range
+    
+    ' Delete the old table and paste new
+    On Error Resume Next
+    wdRange.Tables(1).Delete
+    wdRange.Paste
+    On Error GoTo 0
+    
+    ' Adjust column widths
+    wdRange.Tables(1).Columns.SetWidth (MyRange.Width / MyRange.Columns.Count), wdAdjustSameWidth
+        
+    ' Reinsert the bookmark
+    wdDoc.Bookmarks.Add "DataTableHere", wdRange
+    
+    ' Memory cleanup
+    Set wd = Nothing
+    Set wdDoc = Nothing
+    Set wdRange = Nothing
+
+End Sub

@@ -1,0 +1,21 @@
+Function SHEETOFFSET(Offset As Long, Optional Cell As Variant)
+
+' Returns cell contents at Ref in sheet offset
+' =SHEETOFFSET(-1,A1) = Cell A1 on previous Worksheet
+
+Dim WksIndex As Long
+Dim WksNum As Long
+Dim wks As Worksheet
+
+    Application.Volatile
+    If IsMissing(Cell) Then Set Cell = Application.Caller
+    WksNum = 1
+    
+    For Each wks In Application.Caller.Parent.Parent.Worksheets
+        If Application.Caller.Parent.Name = wks.Name Then
+            SHEETOFFSET = Worksheets(WksNum + Offset).Range(Cell(1).Address)
+            Exit Function
+        Else
+            WksNum = WksNum + 1
+        End If
+    Next wks

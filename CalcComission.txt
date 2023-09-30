@@ -1,0 +1,66 @@
+Sub CalcCommission()
+
+Dim Sales As Long
+Dim Msg As String, Ans As String
+
+    Sales = Val(InputBox("Enter Sales:", "Sales Comission Calculator"))
+    
+    ' Exit if canceled
+    If Sales = 0 Then Exit Sub
+    
+    ' Build the Message
+    Msg = "Sales Amount:" & vbTab & Format(Sales, "$#,##0.00")
+    Msg = Msg & vbCrLf & "Commission:" & vbTab
+    Msg = Msg & Format(COMMISSION(Sales), "$#,##0.00")
+    Msg = Msg & vbCrLf & vbCrLf & "Another?"
+    
+    ' Display the result and prompt for another
+    
+    Ans = MsgBox(Msg, vbYesNo, "Sales Commission Calculator")
+    If Ans = vbYes Then CalcCommission
+
+End Sub
+
+
+Function COMMISSION(Sales)
+
+    Const Tier1 = 0.08
+    Const Tier2 = 0.105
+    Const Tier3 = 0.12
+    Const Tier4 = 0.14
+    
+    Select Case Sales
+        Case 0 To 9999
+            COMMISSION = Sales * Tier1
+        Case 10000 To 19999
+            COMMISSION = Sales * Tier2
+        Case 20000 To 39999
+            COMMISSION = Sales * Tier3
+        Case Else
+            COMMISSION = Sales * Tier4
+    End Select
+              
+End Function
+
+
+Function COMMISSION2(Sales, Years)
+
+    Const Tier1 = 0.08
+    Const Tier2 = 0.105
+    Const Tier3 = 0.12
+    Const Tier4 = 0.14
+    
+    Select Case Sales
+        Case 0 To 9999
+            COMMISSION2 = Sales * Tier1
+        Case 10000 To 19999
+            COMMISSION2 = Sales * Tier2
+        Case 20000 To 39999
+            COMMISSION2 = Sales * Tier3
+        Case Else
+            COMMISSION2 = Sales * Tier4
+    End Select
+    
+    COMMISSION2 = COMMISSION2 + (COMMISSION2 * Years / 100)
+              
+End Function

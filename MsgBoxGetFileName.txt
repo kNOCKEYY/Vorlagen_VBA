@@ -1,0 +1,71 @@
+Sub GetImportSingleFileName()
+
+    Dim Filt As String
+    Dim FilterIndex As Long
+    Dim Title As String
+    Dim FileName As Variant
+    
+    ' Set up list of file filters
+    Filt = "Text Files (*.txt),*.txt," & _
+        "Lotus Files (*.prn),*.prn," & _
+        "Comma Separated Files (*.csv),*.csv," & _
+        "ASCII Files (*.asc),*.asc," & _
+        "All Files (*.*),*.*"
+            
+    ' Display *.* by defualt
+    FilterIndex = 5
+    
+    ' Set the dialog box caption
+    Title = "Select a File to Import"
+    
+    ' Get the file name
+    FileName = Application.GetOpenFilename _
+        (FileFilter:=Filt, _
+        FilterIndex:=FilterIndex, _
+        Title:=Title)
+        
+    ' Exit if dialog box canceled
+    If FileName <> False Then
+        ' Display full path and name of the file
+        MsgBox "You selected " & FileName
+    Else
+        MsgBox "No File was selected"
+    End If
+
+End Sub
+
+Sub GetImportMultiFileName()
+
+    Dim Filt As String
+    Dim FilterIndex As Long
+    Dim Title As String
+    Dim FileName As Variant
+    Dim Msg As String
+    
+    ' Set up list of file filters
+    Filt = "Text Files (*.txt),*.txt," & _
+        "Lotus Files (*.prn),*.prn," & _
+        "Comma Separated Files (*.csv),*.csv," & _
+        "ASCII Files (*.asc),*.asc," & _
+        "All Files (*.*),*.*"
+    
+    ' Display *.* by defualt
+    FilterIndex = 5
+
+    ' Get the file name
+    FileName = Application.GetOpenFilename _
+        (FileFilter:=Filt, _
+        FilterIndex:=FilterIndex, _
+        Title:=Title, _
+        MultiSelect:=True)
+        
+    If IsArray(FileName) Then
+        ' Display full path and name of the files
+        Msg = Join(FileName, vbNewLine)
+        MsgBox "You selected:" & vbNewLine & Msg
+    Else
+        ' Exit if dialog box canceled
+        MsgBox "No file was selected"
+    End If
+    
+End Sub

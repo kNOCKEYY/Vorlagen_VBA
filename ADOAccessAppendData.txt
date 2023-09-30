@@ -1,0 +1,23 @@
+Sub Append_Results()
+
+' Appends entries of an Accessfile
+
+    Dim MyConnect As String
+    Dim MyRecordset As ADODB.Recordset
+    Dim MyRange As String
+    
+    MyConnect = "Provider=Microsoft.ACE.OLEDB.12.0;" & _
+                "Data Source= D:\Excel\Excel 2019 Power Programming\MyDataBaseName.accdb"
+                
+    Set MyRecordset = New ADODB.Recordset
+    
+    ' "Products" Sheet
+    MyRecordset.Open "Products", _
+    MyConnect, adOpenStatic
+    
+    Sheets("AppendData").Select
+    MyRange = "A" & ActiveSheet.Cells.SpecialCells(xlCellTypeLastCell).Row + 1
+    
+    ActiveSheet.Range(MyRange).CopyFromRecordset MyRecordset
+
+End Sub

@@ -1,0 +1,37 @@
+Function SORTEDRANGE(rng)
+
+' Sorts a unsorted Range in a single Column
+' If you want to sort a Row use: =TRANSPOSE(SORTEDRANGE(A16:L16))
+
+
+Dim SortedData() As Variant
+Dim Cell As Range
+Dim Temp As Variant
+Dim i As Long
+Dim j As Long
+Dim NonEmpty As Long
+
+    ' Transfer data to Sorted Date
+    For Each Cell In rng
+        If Not IsEmpty(Cell) Then
+            NonEmpty = NonEmpty + 1
+            ReDim Preserve SortedData(1 To NonEmpty)
+            SortedData(NonEmpty) = Cell.Value
+        End If
+    Next Cell
+    
+    ' Sort the array
+    For i = 1 To NonEmpty
+        For j = i + 1 To NonEmpty
+            If SortedData(i) > SortedData(j) Then
+                Temp = SortedData(j)
+                SortedData(j) = SortedData(i)
+                SortedData(i) = Temp
+            End If
+        Next j
+    Next i
+    
+    ' Transpose the array and return it
+    SORTEDRANGE = Application.Transpose(SortedData)
+
+End Function

@@ -1,0 +1,27 @@
+Function REMOVEVOWELS(Txt) As String
+
+' Removes all vowels from the Txt Arg
+' Returns #VALUE if Txt is not a string
+
+Dim i As Long
+
+    REMOVEVOWELS = ""
+    
+    If Application.WorksheetFunction.IsText(Txt) Then
+        For i = 1 To Len(Txt)
+            If Not UCase(Mid(Txt, i, 1)) Like "[AEIOU]" Then
+                REMOVEVOWELS = REMOVEVOWELS & Mid(Txt, i, 1)
+            End If
+        Next i
+    Else
+        REMOVEVOWELS = CVErr(xlErrNA)
+'        ¡¡ xlErrDiv0 (for #DIV/0!)
+'        ¡¡ xlErrNA (for #N/A)
+'        ¡¡ xlErrName (for #NAME?)
+'        ¡¡ xlErrNull (for #NULL!)
+'        ¡¡ xlErrNum (for #NUM!)
+'        ¡¡ xlErrRef (for #REF!)
+'        ¡¡ xlErrValue (for #VALUE!)
+    End If
+    
+End Function

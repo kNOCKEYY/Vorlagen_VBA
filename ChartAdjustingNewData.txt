@@ -1,0 +1,65 @@
+Sub MakeTable()
+
+Dim rng As Range
+
+    Set rng = Range("A1").CurrentRegion
+    
+    ActiveSheet.ListObjects.Add(xlSrcRange, rng, , xlYes).Name = "MyTable"
+    
+End Sub
+
+Sub MakeChartSamePage()
+
+Dim ws As Worksheet
+Dim dt As Range
+Dim MyChart As Chart
+Dim shp As Shape
+
+    Set ws = Worksheets("Tabelle1")
+    ' Delete all Shapes on Worksheet
+    For Each shp In ws.Shapes
+        shp.Delete
+    Next shp
+    
+    ' Uses a table to make the chart volatile
+    Set dt = Range("MyTable[#All]") ' Can be adjusted to specific c and r's ("MyTable[#All]").Resize(ColumnSize:=2)
+    Set MyChart = ws.Shapes.AddChart2(Left:=Range("F1").Left, Top:=Range("F1").Top).Chart ' Width/Height also available
+    
+    With MyChart
+        .Parent.Name = "Name"
+        .SetSourceData Source:=dt
+        .ChartType = xlColumnStacked
+        .SetElement msoElementPrimaryValueGridLinesNone ' ..Major if you need a grid
+        .ChartStyle = 2
+        .ChartTitle.Text = "DingsBums"
+        With .FullSeriesCollection(1).Points(2).Format.Fill ' Makes the Second Bar orange
+            .Visible = msoTrue
+            .ForeColor.ObjectThemeColor = msoThemeColorAccent2
+            .ForeColor.TintAndShade = 0.4
+            .ForeColor.Brightness = -0.25
+            .Solid
+        End With
+    End With
+
+    MsgBox MyChart.Name
+
+
+End Sub
+
+Sub MakeChartNewPage()
+
+Dim MyChart As Chart
+Dim dt As Range
+
+    Set MyChart = Charts.Add
+    Set dt = Range("MyTable[#All]")
+    
+    With MyChart
+        .Name = "NoName"
+        .SetSourceData Source:=dt
+        .ChartType = xlColumnStacked
+        .HasTitle = True
+        .ChartTitle.Text = "YTD Sales"
+    End With
+
+End Sub

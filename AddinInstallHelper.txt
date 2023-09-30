@@ -1,0 +1,45 @@
+Option Explicit
+' Put it into the ThisWorkbook Object of your addin
+
+Dim InstalledProperly As Boolean
+
+Private Sub Workbook_AddinInstall()
+    InstalledProperly = True
+End Sub
+
+Private Sub Workbook_Open()
+   Dim ai As AddIn, newAi As AddIn
+   Dim msg As String
+   Dim ans As Long
+   'Was just installed using the Add-Ins dialog box?
+   If InstalledProperly Then Exit Sub
+   
+   'Is it in the AddIns collection?
+   For Each ai In AddIns
+      If ai.Name = ThisWorkbook.Name Then
+         If ai.Installed Then
+             MsgBox "This add-in is properly installed.", _
+               vbInformation, ThisWorkbook.Name
+             Exit Sub
+         End If
+      End If
+   Next ai
+        
+    'It's not in AddIns collection, prompt user.
+    msg = "You just opened an add-in. Do you want to install it?"
+    msg = msg & vbNewLine
+    msg = msg & vbNewLine & "Yes - Install the add-in. "
+    msg = msg & vbNewLine & "No - Open it, but don't install it."
+    msg = msg & vbNewLine & "Cancel - Close the add-in"
+    ans = MsgBox(msg, vbQuestion + vbYesNoCancel, ThisWorkbook.Name)
+    Select Case ans
+        Case vbYes
+            ' Add it to the AddIns collection and install it.
+            Set newAi = Application.AddIns.Add(ThisWorkbook.FullName)
+            newAi.Installed = True
+        Case vbNo
+            'no action, leave it open
+        Case vbCancel
+            ThisWorkbook.Close
+    End Select
+End Sub

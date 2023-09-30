@@ -1,0 +1,63 @@
+Sub GetAnswer()
+
+    Dim Ans As Long
+    
+    If Not ContinueProcedure() Then Exit Sub
+    
+    Ans = MsgBox("Continue?", vbYesNo, "Answer")
+    
+    Select Case Ans
+        Case vbYes
+            MsgBox "You chose yes"
+        Case vbNo
+            MsgBox "You chose no"
+    End Select
+    
+End Sub
+
+Private Function ContinueProcedure() As Boolean
+
+    Dim Config As Long
+    Dim Ans As Long
+    
+    Config = vbYesNo + vbQuestion + vbDefaultButton2
+    
+    Ans = MsgBox("An error occurred. Continue?", Config)
+    
+    ContinueProcedure = Ans = vbYes
+    
+End Function
+
+Sub MultiLineMsgBox()
+
+    Dim Msg As String
+    
+    Msg = "This is the first line. " & vbNewLine & vbNewLine
+    Msg = Msg & "This is the second line." & vbNewLine
+    Msg = Msg & "And this is the last line"
+    
+    MsgBox Msg
+    
+End Sub
+
+Sub ShowRange()
+
+' MsgBox is limited to a maximum string of 1,023 characters)
+
+    Dim Msg As String
+    Dim r As Long
+    Dim c As Long
+    
+    Msg = ""
+    
+    For r = 1 To 12
+        For c = 1 To 3
+            Msg = Msg & Cells(r, c).Text
+            If c <> 3 Then Msg = Msg & vbTab
+        Next c
+        Msg = Msg & vbNewLine
+    Next r
+    
+    MsgBox Msg
+    
+End Sub

@@ -1,0 +1,21 @@
+Function ALLBOLD(cell As Range) As Boolean
+    
+' Must be defined in a VBA module
+' Returns TRUE if cell all characters in cell are bold
+' Same with IsItalic etc.
+
+Dim cellText As String
+Dim i As Integer
+    
+    cellText = cell.Text
+    
+    For i = 1 To Len(cellText)
+        If Not cell.Characters(i, 1).Font.Bold Then
+            ALLBOLD = False
+            Exit Function
+        End If
+    Next i
+
+    ALLBOLD = True
+    
+End Function

@@ -1,0 +1,6 @@
+Sub MoveRange()
+
+    ' Moves a Range elsewhere
+    Range("A1:C6").Cut Range("E1")
+
+End Sub

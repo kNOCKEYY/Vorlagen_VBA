@@ -1,0 +1,21 @@
+Function LASTSAVED()
+
+' Returns the Time the Sheet was last saved
+' Cell needs TT/MM/JJJJ hh:mm Format for full display
+
+    Application.Volatile
+    LASTSAVED = Application.Caller.Parent.Parent. _
+        BuiltinDocumentProperties("Last Save Time")
+        
+End Function
+
+Function LASTPRINTED()
+
+' Returns the Time the Sheet was last printed
+' Cell needs TT/MM/JJJJ hh:mm Format for full display
+
+    Application.Volatile
+    LASTPRINTED = ThisWorkbook. _
+        BuiltinDocumentProperties("Last Print Date")
+        
+End Function

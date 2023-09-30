@@ -1,0 +1,12 @@
+Private Function PathExists(pname) As Boolean
+    
+' Accepts a path
+' Returns TRUE if the pasth exists
+
+    If Dir(pname, vbDirectory) = "" Then
+        PathExists = False
+    Else
+        PathExists = (GetAttr(pname) And vbDirectory) = vbDirectory
+    End If
+    
+End Function

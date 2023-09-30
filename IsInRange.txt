@@ -1,0 +1,15 @@
+Function IsInRange(rng1, rng2) As Boolean
+
+' Returns True if rng1 is a subset of rng2
+
+    On Error GoTo ErrHandler
+    
+    If Union(rng1, rng2).Address = rng2.Address Then
+        InRange = True
+        Exit Function
+    End If
+    
+ErrHandler:
+    InRange = False
+
+End Function

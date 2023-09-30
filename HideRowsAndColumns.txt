@@ -1,0 +1,37 @@
+Sub HideRowsAndColumns()
+
+' Hides everything but the selection
+' Unhides whenn selection is every unhidden cell
+
+Dim row1 As Long
+Dim row2 As Long
+Dim col1 As Long
+Dim col2 As Long
+
+    If TypeName(Selection) <> "Range" Then Exit Sub
+    
+    ' If last row or last column is hidden, unhide all and quit
+    If Rows(Rows.Count).EntireRow.Hidden Or _
+        Columns(Columns.Count).EntireColumn.Hidden Then
+        Cells.EntireColumn.Hidden = False
+        Cells.EntireRow.Hidden = False
+        Exit Sub
+    End If
+    
+    row1 = Selection.Rows(1).Row
+    row2 = row1 + Selection.Rows.Count - 1
+    col1 = Selection.Columns(1).Column
+    col2 = col1 + Selection.Columns.Count - 1
+    
+    Application.ScreenUpdating = False
+    On Error Resume Next
+    
+    ' Hide Rows
+    Range(Cells(1, 1), Cells(row1 - 1, 1)).EntireRow.Hidden = True
+    Range(Cells(row2 + 1, 1), Cells(Rows.Count, 1)).EntireRow.Hidden = True
+    
+    ' Hide Columns
+    Range(Cells(1, 1), Cells(1, col1 - 1)).EntireColumn.Hidden = True
+    Range(Cells(1, col2 + 1), Cells(1, Columns.Count)).EntireColumn.Hidden = True
+  
+End Sub

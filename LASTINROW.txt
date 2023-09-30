@@ -1,0 +1,19 @@
+Function LASTINROW(rng As Range)
+
+' Returns the contents of the last non-empty cell in a row
+
+    Application.Volatile
+    With rng.Parent
+        With .Cells(rng.Row, .Columns.Count)
+            If Not IsEmpty(.Value) Then
+                LASTINROW = .Value
+            ElseIf IsEmpty(.End(xlToLeft)) Then
+                LASTINROW = ""
+            Else
+                LASTINROW = .End(xlToLeft).Value
+            End If
+        End With
+        
+    End With
+    
+End Function

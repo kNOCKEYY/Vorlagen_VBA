@@ -1,0 +1,8 @@
+Private Function FileExists(fname) As Boolean
+
+    ' Accepts a path with a filename
+    ' Returns TRUE if the file exists
+
+    FileExists = (Dir(fname) <> "")
+    
+End Function

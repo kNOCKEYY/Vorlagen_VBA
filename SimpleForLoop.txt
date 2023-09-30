@@ -1,0 +1,73 @@
+Sub GoodLoop()
+
+Dim StartVal As Integer, NumToFill As Integer, iCount As Integer
+
+    StartVal = 1
+    NumToFill = 100
+    
+    For iCount = 0 To NumToFill - 1
+        ActiveCell.Offset(iCount, 0).Value = StartVal + iCount
+    Next iCount
+
+End Sub
+
+
+Sub SumSquareRoots()
+
+Dim Sum As Double
+Dim Count As Integer
+
+    Sum = 0
+    For Count = 1 To 10 Step 2
+        Sum = Sum + Sqr(Count)
+        MsgBox Sum
+    Next Count
+    
+    MsgBox Sum
+    
+End Sub
+
+
+Sub DeleteRows()
+
+Dim RowNum As Long
+
+    For RowNum = 10 To 2 Step -2
+        Rows(RowNum).Delete
+    Next RowNum
+
+End Sub
+
+
+Sub ExitForDemo()
+
+Dim MaxVal As Double
+Dim Row As Long
+
+    MaxVal = Application.WorksheetFunction.Max(Range("A:A"))
+    For Row = 1 To 1048576
+        If Cells(Row, 1).Value = MaxVal Then
+            Exit For
+        End If
+    Next Row
+    
+    MsgBox "Max value is in Row " & Row
+    Cells(Row, 1).Activate
+    
+
+End Sub
+
+
+Sub NestedLoops()
+
+Dim MyArray(1 To 10, 1 To 10)
+Dim i As Integer, j As Integer
+
+    For i = 1 To 10
+        For j = 1 To 10
+            MyArray(i, j) = -1
+            MsgBox MyArray(i, j)
+        Next j
+    Next i
+    
+End Sub

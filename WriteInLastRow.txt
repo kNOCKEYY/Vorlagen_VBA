@@ -1,0 +1,21 @@
+Sub GetData()
+
+' Determines the next empty row, prompts for the data and writes the data
+
+Dim NextRow As Long
+Dim Name As String
+Dim Amount As String
+    
+    Do
+        NextRow = Cells(Rows.Count, 1).End(xlUp).Row + 1
+        
+        Name = InputBox("Enter the Name")
+        If Name = "" Then Exit Sub
+        Amount = InputBox("Enter the Amount")
+        If Amount = "" Then Exit Sub
+        
+        Cells(NextRow, 1) = Name
+        Cells(NextRow, 2) = Amount
+    Loop
+
+End Sub

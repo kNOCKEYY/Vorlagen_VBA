@@ -1,0 +1,33 @@
+Sub FilterFile()
+
+' Filter through files by specific keywords
+' Write all filtered Rows into an output file
+
+    Dim TextToFind As String
+    Dim Filtered As Long
+    Dim data As String
+    
+    Open "D:\Excel\Excel 2019 Power Programming\textfile.txt" For Input As #1
+    Open "D:\Excel\Excel 2019 Power Programming\output.txt" For Output As #2
+    If Err <> 0 Then
+        MsgBox "Error reading or writing a file"
+        Exit Sub
+    End If
+    
+    TextToFind = "January"
+    Filtered = 0
+    
+    Do While Not EOF(1)
+        Line Input #1, data
+        If InStr(1, data, TextToFind) Then
+            Filtered = Filtered + 1
+            Print #2, data
+        End If
+    Loop
+    
+    ' Close all files
+    Close
+    MsgBox Filtered & " lines were written to: " & vbNewLine & _
+        "D:\Excel\Excel 2019 Power Programming\output.txt"
+
+End Sub

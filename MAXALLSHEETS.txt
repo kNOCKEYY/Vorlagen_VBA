@@ -1,0 +1,29 @@
+Function MAXALLSHEETS(cell)
+
+' Returns the Max for a specific Cell on all Worksheets in Workbook
+' Can be easily adjusted for min, avg, and sum
+
+Dim MaxVal As Double
+Dim Addr As String
+Dim wks As Object
+
+    Application.Volatile
+    Addr = cell.Range("A1").Address
+    MaxVal = -9.9E+307
+    
+    For Each wks In cell.Parent.Parent.Worksheets
+        If wks.Name = cell.Parent.Name And _
+            Addr = Application.Caller.Address Then
+            ' avoid circular reference
+        Else
+            If IsNumeric(wks.Range(Addr)) Then
+                If wks.Range(Addr) > MaxVal Then _
+                    MaxVal = wks.Range(Addr).Value
+            End If
+        End If
+    Next wks
+    
+    If MaxVal = -9.9E+307 Then MaxVal = 0
+    MAXALLSHEETS = MaxVal
+
+End Function

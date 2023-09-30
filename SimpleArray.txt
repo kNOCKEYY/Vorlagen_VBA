@@ -1,0 +1,31 @@
+Sub MakeList()
+
+Dim Nums(1 To 100) As Double
+Dim i As Integer
+
+    For i = 1 To 100
+        Nums(i) = Rand * 1000
+    Next i
+
+End Sub
+
+_________________________________
+
+Sub MakeCustomerList()
+
+Dim Customer(1 To 100) As CustomerInfo
+
+With Customer(1)
+    .Company = "Acme Tools"
+    .Contact = "Tim Robertson"
+    .RegionCode = 3
+    .Sales = 150674.98
+End With
+
+MsgBox (Customer(1).Company)
+
+Customer(2) = Customer(1)
+
+MsgBox (Customer(2).Contact)
+
+End Sub

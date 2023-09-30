@@ -1,0 +1,14 @@
+Sub SetMacroOptions()
+'   Add descriptions, and put in the Date & Time function category
+    On Error Resume Next
+    With Application
+        .MacroOptions macro:="XDATE", Description:="Returns a date for any year between 0100 and 9999. fmt is an optional date formatting string.", Category:=2
+        .MacroOptions macro:="XDATEADD", Description:="Returns a date, incremented by a specified number of days. fmt is an optional date formatting string.", Category:=2
+        .MacroOptions macro:="XDATEDIF", Description:="Returns the number of days between date1 and date2 (date1-date2).", Category:=2
+        .MacroOptions macro:="XDATEYEARDIF", Description:="Returns the number of full years between date1 and date2 (date1-date2). Useful for calculating ages."
+        .MacroOptions macro:="XDATEYEAR", Description:="Returns the year for a date."
+        .MacroOptions macro:="XDATEMONTH", Description:="Returns the month for a date."
+        .MacroOptions macro:="XDATEDAY", Description:="Returns the day for a date."
+        .MacroOptions macro:="XDATEDOW", Description:="Returns an integer corresponding to the weekday for a date (1=Sunday)."
+    End With
+End Sub

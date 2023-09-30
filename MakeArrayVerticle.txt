@@ -1,0 +1,5 @@
+Sub MakeArrayVertical()
+
+    Range("A1:A10").Value = Application.Transpose(Array("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"))
+
+End Sub

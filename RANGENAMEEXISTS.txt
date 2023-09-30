@@ -1,0 +1,16 @@
+Private Function RangeNameExists(nname) As Boolean
+
+' Accepts a Name of a Range
+' Returns TRUE ifthe range name exists in the workbook
+
+Dim n As Name
+
+    RangeNameExists = False
+    For Each n In ActiveWorkbook.Names
+        If UCase(n.Name) = UCase(nname) Then
+            RangeNameExists = True
+            Exit Function
+        End If
+    Next n
+
+End Function

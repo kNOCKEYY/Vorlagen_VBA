@@ -1,0 +1,7 @@
+Function SHEETCOUNT() As String
+
+' Returns the number of sheets in the workbook
+
+    SHEETCOUNT = Application.Caller.Parent.Parent.Sheets.Count
+    
+End Function

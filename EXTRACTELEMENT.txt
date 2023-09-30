@@ -1,0 +1,12 @@
+Function EXTRACTELEMENT(Txt, n, Separator) As String
+
+' returns the nth element of a text string where the
+' elements are seperated by a specific seperator character
+' =EXTRACTELEMENT("123-456-787-0133-8844",4,"-") = 0133
+
+Dim AllElements As Variant
+
+    AllElements = Split(Txt, Separator)
+    EXTRACTELEMENT = AllElements(n - 1)
+    
+End Function

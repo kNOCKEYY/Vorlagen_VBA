@@ -1,0 +1,15 @@
+Sub CopyRange()
+
+    ' Copy the Range
+    Range("A1:A20").Copy Range("C1")
+
+End Sub
+
+____________________________________________
+
+Sub CopyCurrentRegion()
+
+    ' Copy but with whole data useful if you don't know the exact rows
+    Range("A1").CurrentRegion.Copy Sheets("WorksheetEvents").Range("A1")
+
+End Sub

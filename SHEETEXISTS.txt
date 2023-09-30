@@ -1,0 +1,13 @@
+Private Function SheetExists(sname) As Boolean
+
+' Accepts a Name of A Sheet
+' Returns True if the Sheet name exists in the active workbook
+
+Dim x As Object
+
+On Error Resume Next
+
+    Set x = ActiveWorkbook.Sheets(sname)
+    If Err.Number = 0 Then SheetExists = True Else SheetExists = False
+    
+End Function

@@ -1,0 +1,9 @@
+Sub CloseInactiveWindows()
+
+Dim Book As Workbook
+
+    For Each Book In Workbooks
+        If Book.Name <> ActiveWorkbook.Name Then Book.Close
+    Next Book
+    
+End Sub

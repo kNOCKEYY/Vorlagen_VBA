@@ -1,0 +1,18 @@
+Sub DupeRows()
+
+' Dupes Rows on key until an empty Row
+
+Dim cell As Range
+
+    Set cell = Range("B2")
+    Do While Not IsEmpty(cell)
+        ' This is the key
+        If cell > 1 Then
+            Range(cell.Offset(1, 0), cell.Offset(cell.Value - 1, 0)) _
+                .EntireRow.Insert
+            Range(cell, cell.Offset(cell.Value - 1, 1)).EntireRow.FillDown
+        End If
+        Set cell = cell.Offset(cell.Value, 0)
+    Loop
+    
+End Sub

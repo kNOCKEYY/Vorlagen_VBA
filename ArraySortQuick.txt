@@ -1,0 +1,74 @@
+' This technique works only with Integer or Long values.
+
+
+Sub TestSort()
+
+Dim avTesting() As Variant
+
+    avTesting = Application.Transpose(Range("D3:D11"))
+   ' avTesting = Array(45, 30, 25, 15, 10, 5, 40, 20, 35, 50)
+   Call Array_QuickSort(avTesting)
+   
+   Range(Cells(2, 3), Cells(UBound(avTesting) + 1, 3)) = Application.Transpose(avTesting)
+    
+End Sub
+
+Public Sub Array_QuickSort(ByRef vArrayName As Variant, _
+                  Optional ByVal lLower As Long = -1, _
+                  Optional ByVal lUpper As Long = -1)
+                  
+Dim vmiddlevalue As Variant
+Dim lmiddle As Long
+Dim lrowlower As Long
+Dim lrowupper As Long
+Dim stemp As String
+
+   If IsEmpty(vArrayName) = True Then Exit Sub
+   If lLower = -1 Then lLower = LBound(vArrayName, 1)
+   If lUpper = -1 Then lUpper = UBound(vArrayName, 1)
+
+   If lLower < lUpper Then
+
+      'lmiddle = lLower
+      lmiddle = (lLower + lUpper) / 2
+      'lmiddle = VBA.Int(lLower + VBA.Rnd * (lUpper - lLower + 1))
+
+      vmiddlevalue = vArrayName(lmiddle)
+      lrowlower = lLower
+      lrowupper = lUpper
+                        
+      Do While lrowlower < lrowupper
+         Do While (vArrayName(lrowupper) >= vmiddlevalue) And (lrowlower < lrowupper)
+            lrowupper = lrowupper - 1
+         Loop
+         If (lrowlower <> lrowupper) Then
+            stemp = vArrayName(lrowlower)
+            vArrayName(lrowlower) = vArrayName(lrowupper)
+            vArrayName(lrowupper) = stemp
+            lrowlower = lrowlower + 1
+         End If
+         
+         Do While (vArrayName(lrowlower) <= vmiddlevalue) And (lrowlower < lrowupper)
+            lrowlower = lrowlower + 1
+         Loop
+         If (lrowlower <> lrowupper) Then
+            stemp = vArrayName(lrowupper)
+            vArrayName(lrowupper) = vArrayName(lrowlower)
+            vArrayName(lrowlower) = stemp
+            lrowupper = lrowupper - 1
+         End If
+      Loop
+            
+      vArrayName(lrowlower) = vmiddlevalue
+      lmiddle = lrowlower
+      lrowlower = lLower
+      lrowupper = lUpper
+      
+      If (lrowlower < lmiddle) Then
+         Call Array_QuickSort(vArrayName, lrowlower, lmiddle - 1)
+      End If
+      If (lrowupper > lmiddle) Then
+         Call Array_QuickSort(vArrayName, lmiddle + 1, lrowupper)
+      End If
+   End If
+End Sub

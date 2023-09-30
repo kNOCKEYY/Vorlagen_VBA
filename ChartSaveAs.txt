@@ -1,0 +1,10 @@
+Sub SaveChartAsPng()
+
+    Dim Fname As String
+    
+    If ActiveChart Is Nothing Then Exit Sub
+    
+    Fname = ThisWorkbook.Path & "\" & ActiveChart.Name & ".png"
+    ActiveChart.Export Filename:=Fname, FilterName:="PNG"
+
+End Sub

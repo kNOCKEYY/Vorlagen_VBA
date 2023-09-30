@@ -1,0 +1,20 @@
+Function LASTINCOLUMN(rng As Range)
+
+' Returns the contents of the last non-empty cell in a column
+
+Dim Lastcell As Range
+
+    Application.Volatile
+    With rng.Parent
+        With .Cells(.Rows.Count, rng.Column)
+            If Not IsEmpty(.Value) Then
+                LASTINCOLUMN = .Value
+            ElseIf IsEmpty(.End(xlUp)) Then
+                LASTINCOLUMN = ""
+            Else
+                LASTINCOLUMN = .End(xlUp).Value
+            End If
+        End With
+    End With
+    
+End Function

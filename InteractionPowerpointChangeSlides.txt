@@ -1,0 +1,65 @@
+Option Explicit
+
+Public pptApp As PowerPoint.Application
+Public pptPres As PowerPoint.Presentation
+Public pptSlide As PowerPoint.Slide
+Public pptShape As PowerPoint.Shape
+
+Public strPfad As String
+Public strPOTX As String
+
+Sub ExportToPowerpoint()
+
+On Error Resume Next
+
+    strPfad = "D:\Excel\Video Course\ExcelToPowerpoint\"
+    strPOTX = "Vorlage.potx"
+
+    ' Grab the Active PowerPoint Application, if it's there
+    Set pptApp = GetObject(, "Powerpoint.Application")
+    
+    ' Handle 429 ActiveX Error
+    If Err.Number = 429 Then
+        Err.Clear
+        Set pptApp = New PowerPoint.Application
+        pptApp.Visible = True
+    
+    End If
+    
+    ' Fetch POTX and open a new PPTX File
+    With pptApp.Presentations.Open(strPfad & strPOTX, False, True, True)
+    End With
+    Set pptPres = pptApp.ActivePresentation
+    
+    ' Modify the Slides
+    ModSlide1
+    ModSlide2
+    
+    ' Save and close new PPTX
+    pptPres.SaveAs strPfad & Range("B2") & "_" & Range("C2") & ".pptx"
+    ' pptPres.Close
+
+End Sub
+
+Sub ModSlide1()
+
+    With pptPres.Slides(1)
+        .Select
+        
+        .Shapes("Title 8").TextFrame.TextRange.Characters.Text = Range("B2").Value
+        .Shapes("Text Placeholder 9").TextFrame.TextRange.Characters.Text = "Präsentation für " & Range("C2").Value
+        
+    End With
+
+End Sub
+
+Sub ModSlide2()
+
+    With pptPres.Slides(2)
+        .Select
+        
+        .Shapes("Rectangle 11").TextFrame.TextRange.Characters.Text = "Du hasts geschafft"
+        
+    End With
+        
+End Sub

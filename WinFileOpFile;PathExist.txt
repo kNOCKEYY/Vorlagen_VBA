@@ -1,0 +1,30 @@
+Function FileExists(fname) As Boolean
+
+' Returns True if File Exists
+
+    FileExists = Dir(fname) <> ""
+
+End Function
+
+Function PathExists(pname) As Boolean
+
+' Returns True if Path Exists
+
+    On Error Resume Next
+    PathExists = (GetAttr(pname) And vbDirectory) = vbDirectory
+
+End Function
+
+
+Sub Test()
+
+Dim MyFile As String
+Dim MyPath As String
+
+    MyFile = "D:\Excel\Excel 2019 Power Programming\output.txt"
+    MsgBox FileExists(MyFile)
+    
+    MyPath = "D:\Excel\Excel 2019 Power Programmin"
+    MsgBox PathExists(MyPath)
+
+End Sub

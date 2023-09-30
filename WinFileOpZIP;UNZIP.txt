@@ -1,0 +1,79 @@
+Sub ZipFiles()
+
+    Dim ShellApp As Object
+    Dim FileNameZip As Variant
+    Dim FileNames As Variant
+    Dim i As Long
+    Dim FileCount As Long
+    
+    ' Get the file names
+    FileNames = Application.GetOpenFilename _
+        (FileFilter:="All Files (*.*),*.*", _
+         FilterIndex:=1, _
+         Title:="Select the files to ZIP", _
+         MultiSelect:=True)
+         
+    ' Exit if dialog box canceled
+    If Not IsArray(FileNames) Then Exit Sub
+    
+    FileCount = UBound(FileNames)
+    FileNameZip = Application.DefaultFilePath & "\compressed.zip"
+    
+    ' Create empty  Zip File with zip header
+    Open FileNameZip For Output As #1
+    Print #1, Chr$(80) & Chr$(75) & Chr$(5) & Chr$(6) & String(18, 0)
+    Close #1
+    
+    Set ShellApp = CreateObject("Shell.Application")
+    
+    'Copy the files to the compressed folder
+    For i = LBound(FileNames) To UBound(FileNames)
+        DoEvents
+        ShellApp.Namespace(FileNameZip).CopyHere FileNames(i)
+        
+        ' Keep script waiting until compressing is done
+        On Error Resume Next
+        Do Until ShellApp.Namespace(FileNameZip).items.Count = i
+            DoEvents
+            Application.Wait (Now + TimeValue("0:00:01"))
+        Loop
+        Application.StatusBar = "File " & i & " of " & UBound(FileNames)
+    Next i
+    
+If MsgBox(FileCount & " files were zipped to:" & _
+    vbNewLine & FileNameZip & vbNewLine & vbNewLine & _
+    "View the zip file?", vbQuestion + vbYesNo) = vbYes Then _
+    Shell "Explorer.exe /e," & FileNameZip, vbNormalFocus
+    
+End Sub
+
+Sub UnzipAFile()
+
+    Dim ShellApp As Object
+    Dim TargetFile As Variant
+    Dim ZipFolder As Variant
+    
+    ' Target file & temp dir
+    TargetFile = Application.GetOpenFilename _
+        (FileFilter:="Zip Files (*.zip), *.zip")
+    If TargetFile = False Then Exit Sub
+    
+    ZipFolder = Application.DefaultFilePath & "\Unzipped\"
+    
+    ' Create a temp folder
+    On Error Resume Next
+    RmDir ZipFolder
+    MkDir ZipFolder
+    On Error GoTo 0
+    
+    ' Copy the zipped files to the newly created folder
+    Set ShellApp = CreateObject("Shell.Application")
+    ShellApp.Namespace(ZipFolder).CopyHere _
+        ShellApp.Namespace(TargetFile).items
+        
+    If MsgBox("The file was unzipped to:" & _
+        vbNewLine & ZipFolder & vbNewLine & vbNewLine & _
+        "View the folder?", vbQuestion + vbYesNo) = vbYes Then _
+        Shell "Explorer.exe /e," & ZipFolder, vbNormalFocus
+        
+End Sub

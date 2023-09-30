@@ -1,0 +1,13 @@
+Function ISLIKE(text As String, pattern As String) As Boolean
+
+' Returns True if the first argument is like the second
+
+' ? Character = Any single character \> =ISLIKE("guitar","guita?") True; =ISLIKE("guitar","guitar?") False
+' * Character = Zero or more characters \> =ISLIKE("guitar","g*") True; =ISLIKE("guitar","gi*") False
+' # Character = Any single digit(0-9) \> =ISLIKE("100","10#") True;=ISLIKE("100","#1#") False
+' [charlist] Any single character in charlist \> =ISLIKE("a","[aeiou]") True
+' [!charlist] Any single character not in charlist
+
+    ISLIKE = text Like pattern
+    
+End Function

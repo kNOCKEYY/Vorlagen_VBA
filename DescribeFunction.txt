@@ -1,0 +1,23 @@
+Sub DescribeFunction()
+
+Dim FuncName As String
+Dim FuncDesc As String
+Dim FuncCat As Long
+
+Dim Arg1Desc As String, Arg2Desc As String
+
+    FuncName = "DRAWONE"
+    FuncDesc = "Displays the contents of a random cell from a range"
+    FuncCat = 5
+    Arg1Desc = "The range that contains the values"
+    Arg2Desc = "(Optional) If False or missing, a new cell is selected when"
+    Arg2Desc = Arg2Desc & "recalculated. If True, a new cell is selected "
+    Arg2Desc = Arg2Desc & "when recalculated."
+    
+    Application.MacroOptions _
+        Macro:=FuncName, _
+        Description:=FuncDesc, _
+        Category:=FuncCat, _
+        ArgumentDescriptions:=Array(Arg1Desc, Arg2Desc)
+
+End Sub

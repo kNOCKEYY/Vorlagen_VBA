@@ -1,0 +1,8 @@
+' In ThisWorkbook
+' Comment by RC "Neue Notiz"
+
+Private Sub Workbook_Open()
+
+    Application.DisplayCommentIndicator = xlCommentIndicatorOnly
+
+End Sub

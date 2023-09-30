@@ -1,0 +1,11 @@
+Function SIMPLESUM(ParamArray arglist() As Variant) As Double
+
+Dim cell As Range
+
+    For Each arg In arglist
+        For Each cell In arg
+            SIMPLESUM = SIMPLESUM + cell
+        Next cell
+    Next arg
+    
+End Function

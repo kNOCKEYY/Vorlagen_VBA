@@ -1,0 +1,12 @@
+Sub MoveChartFromEmbeddedToSheet()
+
+    Sheets("Tabelle1").ChartObjects("Name").Chart. _
+        Location xlLocationAsNewSheet, "MyChart"
+
+End Sub
+
+Sub MoveChartFromSheetToEmbedded()
+
+    Charts("MyChart").Location xlLocationAsObject, "Tabelle1"
+
+End Sub

@@ -1,0 +1,19 @@
+Sub ToggleBool()
+
+' Toggle Textumbruch for selected cells
+
+    ' Checks if Selection as a Range
+    If TypeName(Selection) = "Range" Then
+        ' Chances the text Wrap Property
+        Selection.WrapText = Not ActiveCell.WrapText
+    End If
+    
+' Toggle the display of row and column borders
+    
+    ActiveWindow.DisplayHeadings = Not ActiveWindow.DisplayHeadings
+    
+' Toggle worksheet grid
+
+    ActiveWindow.DisplayGridlines = Not ActiveWindow.DisplayGridlines
+
+End Sub

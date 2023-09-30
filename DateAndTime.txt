@@ -1,0 +1,39 @@
+Sub ShowDateAndTime()
+
+' Displays the current date and timeS
+
+Dim TheDate As String
+Dim TheTime As String
+Dim Greeting As String
+Dim FullName As String
+Dim FirstName As String
+Dim LastSaved As String
+Dim SpaceInName As Long
+
+    TheDate = Format(Date, "Long Date")
+    TheTime = Format(Time, "Medium Time")
+    
+    ' Determine greeting based on time
+    Select Case Time
+        Case Is < TimeSerial(12, 0, 0): Greeting = "Good Morning, "
+        Case Is >= TimeSerial(17, 0, 0): Greeting = "Good Evening, "
+        Case Else: Greeting = "Good Afternoon, "
+    End Select
+    
+    ' Last saved
+    LastSaved = "Document Last Saved: " & _
+        ActiveWorkbook.BuiltinDocumentProperties(12)
+        
+    ' Append users's first name to greeting
+    FullName = Application.UserName
+    SpaceInName = InStr(1, FullName, " ", 1)
+    
+    ' Handle situation when name has no space
+    If SpaceInName = 0 Then SpaceInName = Len(FullName)
+    FirstName = Left(FullName, SpaceInName)
+    Greeting = Greeting & FirstName
+    
+    ' Show message
+    MsgBox TheDate & vbCrLf & vbCrLf & "It's " & TheTime, vbOKOnly, Greeting
+    
+End Sub

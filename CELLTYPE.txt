@@ -1,0 +1,28 @@
+Function CellType(Rng) As String
+
+' Returns the celltype of the upper-left cell in a range
+
+Dim cell As Range
+
+    Set cell = Rng.Range("A1")
+    
+    Select Case True
+        Case IsEmpty(cell)
+            CellType = "Blank"
+        Case cell.NumberFormat = "@"
+            CellType = "Text"
+        Case Application.IsText(cell)
+            CellType = "Text"
+        Case Application.IsLogical(cell)
+            CellType = "Logical"
+        Case Application.IsErr(cell)
+            CellType = "Error"
+        Case IsDate(cell)
+            CellType = "Date"
+        Case InStr(1, cell.Text, ":") <> 0
+            CellType = "Time"
+        Case IsNumeric(cell)
+            CellType = "Number"
+    End Select
+
+End Function

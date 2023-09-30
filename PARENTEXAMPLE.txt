@@ -1,0 +1,23 @@
+Function SHEETNAME(ref) As String
+
+' Returns the Sheetname if a Range is selected
+    
+    SHEETNAME = ref.Parent.Name
+    
+End Function
+
+Function WORKBOOKNAME(ref) As String
+
+' Returns the Workbookname if a Range is selected
+
+    WORKBOOKNAME = ref.Parent.Parent.Name
+    
+End Function
+
+Function APPNAME(ref) As String
+
+' Returns the name of the Application if a Range is selected
+
+    APPNAME = ref.Parent.Parent.Parent.Name
+    
+End Function

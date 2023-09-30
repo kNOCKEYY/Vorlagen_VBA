@@ -1,0 +1,22 @@
+Sub RangeToVariant()
+
+' Reads Range into an Array, Performs a simple multiplication and transforms the variant array back to the range
+
+Dim x As Variant
+Dim r As Long, c As Integer
+
+'   Read the data into the variant
+    x = Range("A1:Y600").Value
+    
+'   Loop through the variant array
+    For r = 1 To UBound(x, 1)
+        For c = 1 To UBound(x, 2)
+'           Multiply by 2
+            x(r, c) = x(r, c) * 2
+        Next c
+    Next r
+
+'   Transfer the variant back to the sheet
+    Range("A1:Y600") = x
+    
+End Sub

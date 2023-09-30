@@ -1,0 +1,11 @@
+Function DRAWONE(Rng As Variant, Optional Recalc As Variant = False)
+
+' Chooses one cell at random from range
+
+' Make function volatile if Recalc is True
+Application.Volatile Recalc
+
+' Determine a random cell
+    DRAWONE = Rng(Int((Rng.Count) * Rnd + 1))
+
+End Function

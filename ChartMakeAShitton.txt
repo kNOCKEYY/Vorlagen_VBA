@@ -1,0 +1,48 @@
+Sub CreateChart(rng, l, t, w, h)
+
+    With Worksheets("Charts").Shapes. _
+        AddChart2(332, xlLineMarkers, l, t, w, h).Chart
+            .SetSourceData Source:=rng
+            .Axes(xlValue).MinimumScale = 0
+            .Axes(xlValue).MaximumScale = 100
+    End With
+
+End Sub
+
+Sub Make50Charts()
+
+    Dim ChartData As Range
+    Dim i As Long
+    Dim leftPos As Long
+    Dim topPos As Long
+    
+    ' Delete existing charts if they exist
+    With Worksheets("Charts").ChartObjects
+        If .Count > 0 Then .Delete
+    End With
+    
+    ' Initialize positions
+    leftPos = 0
+    topPos = 0
+    
+    ' Loop through the data
+    For i = 2 To 51
+        ' Determine the data range
+        With Worksheets("Tabelle2")
+            Set ChartData = Union(.Range("A1:F1"), _
+                .Range(.Cells(i, 1), .Cells(i, 6)))
+        End With
+        
+        ' Create a chart
+        Call CreateChart(ChartData, leftPos, topPos, 180, 120)
+        
+        ' Adjust positions
+        If (i - 1) Mod 5 = 0 Then
+            leftPos = 0
+            topPos = topPos + 120
+        Else
+            leftPos = leftPos + 180
+        End If
+    Next i
+    
+End Sub

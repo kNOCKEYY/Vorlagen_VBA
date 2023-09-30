@@ -1,0 +1,61 @@
+KLASSENMODUL: (Named clsApp)
+
+Option Explicit
+
+Public WithEvents AppEvents As Application
+
+Private Sub AppEvents_WorkbookOpen(ByVal Wb As Excel.Workbook)
+
+    Call UpdateLogFile(Wb)
+
+End Sub
+
+_______________________________________________________
+
+MODUL:
+
+Option Explicit
+
+Public AppObject As New clsApp
+
+Sub Init()
+
+' Called by Workbook_Open
+
+    Set AppObject.AppEvents = Application
+
+End Sub
+
+Sub UpdateLogFile(Wb)
+
+Dim txt As String
+Dim Fname As String
+
+    txt = Wb.FullName
+    txt = txt & "," & Date & "," & Time
+    txt = txt & "," & Application.UserName
+    
+    Fname = Application.DefaultFilePath & "\logfile.csv"
+    
+    Open Fname For Append As #1
+    Print #1, txt
+    Close #1
+    MsgBox txt
+
+End Sub
+
+Function DefaultFileDirectory()
+
+    DefaultFileDirectory = Application.DefaultFilePath
+
+End Function
+
+_______________________________________________________
+
+THISWORKBOOK:
+
+Private Sub Workbook_Open()
+
+    Call Init
+
+End Sub

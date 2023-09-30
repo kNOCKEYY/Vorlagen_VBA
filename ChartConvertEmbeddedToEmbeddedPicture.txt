@@ -1,0 +1,18 @@
+Sub ConvertChartToPicture()
+
+' Creates a Picture from a Chart
+' That way the Chart doesnt Change in entries from range change
+
+    Dim Cht As Chart
+    
+    If ActiveChart Is Nothing Then Exit Sub
+    If TypeName(ActiveSheet) = "Chart" Then Exit Sub
+    
+    Set Cht = ActiveChart
+    
+    Cht.CopyPicture Appearance:=xlPrinter, _
+        Size:=xlScreen, Format:=xlPicture
+    ActiveWindow.RangeSelection.Select
+    ActiveSheet.Paste
+
+End Sub

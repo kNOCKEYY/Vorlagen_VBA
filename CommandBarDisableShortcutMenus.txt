@@ -1,0 +1,21 @@
+Sub DisableSpecificMenu()
+
+' Disables a specific Shortcutmenu in the active Window
+' Adjust "Cell" if you want other stuff disables
+
+    Application.CommandBars("Cell").Enabled = False
+    
+End Sub
+
+Sub DisableAllShortcutMenus()
+
+' Disables all shortcutmenus inn the active Window
+
+    Dim cbar As CommandBar
+    
+    For Each cbar In CommandBars
+        If cbar.Type = msoBarTypePopup Then _
+            cbar.Enabled = True
+    Next cbar
+    
+End Sub

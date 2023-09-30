@@ -1,0 +1,6 @@
+Sub DisplayDataForm()
+
+    Range("A1").Select
+    ActiveSheet.ShowDataForm
+    
+End Sub

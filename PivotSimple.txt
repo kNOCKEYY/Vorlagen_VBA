@@ -1,0 +1,32 @@
+Sub CreatePivotTable()
+
+' Creates a new Sheet and PivotTable
+
+Dim PTCache As PivotCache
+Dim PT As PivotTable
+
+    ' Create Cache
+    Set PTCache = ActiveWorkbook.PivotCaches.Create( _
+        SourceType:=xlDatabase, _
+        SourceData:=Range("A1").CurrentRegion)
+
+    ' Add new Sheeet
+    Worksheets.Add
+    
+    ' Create the pivot table
+    Set PT = ActiveSheet.PivotTables.Add( _
+        PivotCache:=PTCache, _
+        TableDestination:=Range("A3"))
+        
+    ' Specify the fields
+    With PT
+        .PivotFields("Region").Orientation = xlPageField  ' Filter
+        .PivotFields("Month").Orientation = xlColumnField ' Spalten
+        .PivotFields("SalesRep").Orientation = xlRowField ' Zeilen
+        .PivotFields("Sales").Orientation = xlDataField ' Werte
+        
+        ' No field captions
+        .DisplayFieldCaptions = False
+    End With
+    
+End Sub

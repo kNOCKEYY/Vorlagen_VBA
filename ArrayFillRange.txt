@@ -1,0 +1,34 @@
+Sub ArrayFillRange()
+
+' Fill a range by transferring an array
+
+Dim CellsDown As Long
+Dim CellsAcross As Integer
+Dim i As Long
+Dim j As Integer
+Dim TempArray() As Long
+Dim TheRange As Range
+
+    ' Get the dimensions
+    CellsDown = InputBox("How many cells down?")
+    If CellsDown = 0 Then Exit Sub
+    CellsAcross = InputBox("How many cells across?")
+    If CellsAcross = 0 Then Exit Sub
+    
+    'Redimension temporary array
+    ReDim TempArray(1 To CellsDown, 1 To CellsAcross)
+    
+    ' Set worksheet range
+    Set TheRange = ActiveCell.Range(Cells(1, 1), Cells(CellsDown, CellsAcross))
+    
+    ' Fill the temporary array
+    Application.ScreenUpdating = False
+    For i = 1 To CellsDown
+        For j = 1 To CellsAcross
+            ' This is cell.Value
+            TempArray(i, j) = i + j
+        Next j
+    Next i
+    
+    ' Transfer temporary array to worksheet
+    TheRange.Value = TempArray

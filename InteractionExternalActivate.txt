@@ -1,0 +1,19 @@
+Sub ActivateCalc()
+
+' Activates the calculator if it's already open
+' Starts the calculator if there is no open calc
+
+    Dim AppFile As String
+    Dim CalcTaskID As Double
+    
+    AppFile = "Calc.exe"
+    
+    On Error Resume Next
+    AppActivate "Calculator"
+    If Err <> 0 Then
+        Err = 0
+        CalcTaskID = Shell(AppFile, 1)
+        If Err <> 0 Then MsgBox "Can't start Calculator"
+    End If
+
+End Sub

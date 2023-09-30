@@ -1,0 +1,14 @@
+Sub CloseAllWorkbooks()
+
+' Saves and Closes all open Workbooks
+
+Dim Book As Workbook
+
+    For Each Book In Workbooks
+        If Book.Name <> ThisWorkbook.Name Then
+            Book.Close savechanges:=True
+        End If
+    Next Book
+    ThisWorkbook.Close savechanges:=True
+    
+End Sub

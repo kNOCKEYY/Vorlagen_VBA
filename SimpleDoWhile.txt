@@ -1,0 +1,27 @@
+Sub EnterDates1()
+
+Dim TheDate As Date
+
+    TheDate = DateSerial(Year(Date), Month(Date), 1)
+    
+    Do While Month(TheDate) = Month(Date)
+        ActiveCell = TheDate
+        TheDate = TheDate + 1
+        ActiveCell.Offset(1, 0).Activate
+    Loop
+        
+End Sub
+
+Sub EnterDates2()
+
+Dim TheDate As Date
+
+    TheDate = DateSerial(Year(Date), Month(Date), 1)
+    
+    Do
+        ActiveCell = TheDate
+        TheDate = TheDate + 1
+        ActiveCell.Offset(1, 0).Activate
+    Loop While Month(TheDate) = Month(Date)
+        
+End Sub

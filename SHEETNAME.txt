@@ -1,0 +1,7 @@
+Function SHEETNAME()
+
+' Returns the name of the worksheet
+
+    SHEETNAME = Application.Caller.Parent.Name
+    
+End Function

@@ -1,0 +1,63 @@
+Function RANGERANDOMIZE(rng)
+
+' Randomizes Entrys in an Range
+' Range can be any type
+' {=RANGERANDOMIZE(M32:M34)}
+
+Dim V() As Variant
+Dim ValArray() As Variant
+Dim CellCount As Double
+Dim i As Integer
+Dim j As Integer
+Dim r As Integer
+Dim c As Integer
+Dim Temp1 As Variant
+Dim Temp2 As Variant
+Dim RCount As Integer
+Dim CCount As Integer
+
+    ' Return an error if rng is too large
+    CellCount = rng.Count
+        If CellCount > 1000 Then
+            RANGERANDOMIZE = CVErr(xlErrNA)
+            Exit Function
+    End If
+    
+    ' Assign variable
+    RCount = rng.Rows.Count
+    CCount = rng.Columns.Count
+    ReDim V(1 To RCount, 1 To CCount)
+    ReDim ValArray(1 To 2, 1 To CellCount)
+    
+    ' Fill array with random numbers and consecutive integers
+    For i = 1 To CellCount
+        ValArray(1, i) = Rnd
+        ValArray(2, i) = rng(i)
+    Next i
+    
+    ' Sort ValArray by the random number dimension
+        For i = 1 To CellCount
+            For j = i + 1 To CellCount
+                If ValArray(1, i) > ValArray(1, j) Then
+                    Temp1 = ValArray(1, j)
+                    Temp2 = ValArray(2, j)
+                    ValArray(1, j) = ValArray(1, i)
+                    ValArray(2, j) = ValArray(2, i)
+                    ValArray(1, i) = Temp1
+                    ValArray(2, i) = Temp2
+                End If
+            Next j
+        Next i
+        
+    ' Put the randomized values into the V array
+    i = 0
+    For r = 1 To RCount
+        For c = 1 To CCount
+            i = i + 1
+            V(r, c) = ValArray(2, i)
+        Next c
+    Next r
+    
+    RANGERANDOMIZE = V
+
+End Function

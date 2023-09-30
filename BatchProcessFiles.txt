@@ -1,0 +1,53 @@
+Sub BatchProcess()
+    Dim FileSpec As String
+    Dim i As Integer
+    Dim FileName As String
+    Dim FileList() As String
+    Dim FoundFiles As Integer
+
+    ' Specify path and file spec
+    FileSpec = ThisWorkbook.Path & "\" & "text??.txt"
+    FileName = Dir(FileSpec)
+    
+    ' Was a file found?
+    If FileName <> "" Then
+        FoundFiles = 1
+        ReDim Preserve FileList(1 To FoundFiles)
+        FileList(FoundFiles) = FileName
+    Else
+        MsgBox "No files were found that match " & FileSpec
+        Exit Sub
+    End If
+    
+    ' Get other filenames
+    Do
+        FileName = Dir
+        If FileName = "" Then Exit Do
+        FoundFiles = FoundFiles + 1
+        ReDim Preserve FileList(1 To FoundFiles)
+        FileList(FoundFiles) = FileName & "*"
+    Loop
+
+    ' Loop through the files and process them
+    For i = 1 To FoundFiles
+        Call ProcessFiles(FileList(i))
+    Next i
+End Sub
+
+
+Sub ProcessFiles(FileName As String)
+    ' Import the file
+    Workbooks.OpenText FileName:=ThisWorkbook.Path & "\" & FileName, _
+        Origin:=xlWindows, _
+        StartRow:=1, _
+        DataType:=xlFixedWidth, _
+        FieldInfo:= _
+        Array(Array(0, 1), Array(3, 1), Array(12, 1))
+        
+    ' Enter summary formulas
+    Range("D1").Value = "A"
+    Range("D2").Value = "B"
+    Range("D3").Value = "C"
+    Range("E1:E3").Formula = "=COUNTIF(B:B,D1)"
+    Range("F1:F3").Formula = "=SUMIF(B:B,D1,C:C)"
+End Sub

@@ -1,0 +1,40 @@
+Sub CalcDiscountCase()
+
+Dim Quantity As Variant
+Dim Discount As Double
+
+    Quantity = InputBox("Enter Quantity: ")
+    Select Case Quantity
+        Case ""
+            Exit Sub
+        Case 0 To 24
+            Discount = 0.1
+        Case 25 To 49
+            Discount = 0.15
+        Case 50 To 74
+            Discount = 0.2
+        Case Else
+            Discount = 0.25
+    End Select
+    
+    MsgBox "Discount: " & Discount
+
+End Sub
+
+Sub CalcDiscountCaseBetter()
+
+Dim Quantity As Variant
+Dim Discount As Double
+
+    Quantity = InputBox("Enter Quantity: ")
+    Select Case Quantity
+        Case "": Exit Sub
+        Case 0 To 24: Discount = 0.1
+        Case 25 To 49: Discount = 0.15
+        Case 50 To 74: Discount = 0.2
+        Case Is >= 75: Discount = 0.25
+    End Select
+    
+    MsgBox "Discount: " & Discount
+
+End Sub
