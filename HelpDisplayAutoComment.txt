@@ -1,3 +1,4 @@
+' Makes Cell comments show all the time
 ' In ThisWorkbook
 ' Comment by RC "Neue Notiz"
 

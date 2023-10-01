@@ -1,0 +1,16 @@
+Function COUNTBETWEEN(InRange, num1, num2) As Long
+
+' Counts number of value between num1 and num2 in a range
+' Simpler Func than CountIfs
+
+    With Application.WorksheetFunction
+        If num1 <= num2 Then
+            COUNTBETWEEN = .CountIfs(InRange, ">=" & num1, _
+                InRange, "<=" & num2)
+        Else
+            COUNTBETWEEN = .CountIfs(InRange, ">=" & num2, _
+                InRange, "<=" & num1)
+        End If
+    End With
+
+End Function
